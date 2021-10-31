@@ -1,11 +1,10 @@
-import os.path
+import numpy as np
 import csv
 import plotter
 
 
 def main():
-        def print_average(string):
-                string = input('enter ')
+
 
                 #quit function
         def quits():
@@ -40,6 +39,14 @@ def main():
                         if user == "":
                             user = input("enter a command or 'quit' to quit")
                             quits()
+            elif cmd == 'avg':
+                    if len(string) != 3:
+                        print('incorrect usage: avg <filename> <grade item>')
+                    else:
+                        userfile = string[1]
+                        gradeitem = string[2]
+                        print_average(["avg",userfile,gradeitem])
+
             else:
                 print('invalid command')
         def student_average(param):
@@ -70,11 +77,22 @@ def main():
                                         elif plotter.plot() == False:
                                             print('Plot failed. (student not found)')
                                             break
-
                             except:
                                 print('name not found in csv file')
                     except:
                         print('file not found')
+        def print_average(avg):
+            csv=avg[1]
+            f = open(csv)
+            average=0
+            Sum = 0
+            column= 12
+            for i in range(0,column):
+                for n in range(i):
+                    n=float(n)
+                    Sum += n
+            average = Sum / 12
+            print(average)
 
 
 
