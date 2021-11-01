@@ -10,15 +10,22 @@ def main():
 
             #quit function
         def quits():
-                sure = input("are you sure?")
-                while sure == 'y':
+                sure = input("are you sure? y/n")
+                if sure == 'y':
                     print('goodbye!')
                     return True
-                while sure == 'Y':
+                elif sure == 'Y':
                     print('goodbye!')
                     return True
-                else:
+                elif sure == 'n' or 'N':
+                    print("back to main terminal..")
+                    bye()
                     return False
+                else:
+                    print('sorry, unknown command, will ask again..')
+                    quits()
+
+
         def bye():
                 user = input(">>")
                 string = user.split()
@@ -51,9 +58,9 @@ def main():
                         else:
                             userfile = string[1]
                             class_average(['cavg',userfile])
-                except IndexError:
-                    user = input("enter a command or 'quit' to quit")
-                    quits()
+                except:
+                    print("enter a command or 'quit' to quit")
+                    bye()
         def student_average(param):
             plotter.plot(trace_plot=True)
             f = param[1]
@@ -69,6 +76,7 @@ def main():
                             try:
                                     while firstname in row:
                                             if lastname in row:
+                                                print(row)
                                                 try:
                                                     plot = row[2:]
                                                     plotter.init('my graph','x-axis','y-axis')
@@ -132,16 +140,22 @@ def main():
 
         def print_average(avg):
             csv=avg[1]
-            f = open(csv)
-            average=0
+            f = open(csv,'r')
+            next(f)
+            average = 0
             Sum = 0
-            column= 12
-            for i in range(0,column):
-                for n in range(i):
-                    n=float(n)
-                    Sum += n
-            average = Sum / 12
-            print(average)
+            row_count = 0
+            for row in f:
+                    for column in row.split(','):
+                        try:
+                                x = float(column)
+                                Sum += x
+                                row_count += 1
+
+
+                        except ValueError:
+                            pass
+            print("Avg =",Sum/row_count)
 
 
 
