@@ -4,9 +4,11 @@ import plotter
 
 
 def main():
+        def help():
+            print('stu <filename> <first name> <last name> - plot student grades\n cavg <filename> - plot class average\n avg <filename> <number> - prints the average for the grade item\n quit - quits\n help - displays this message')
+            bye()
 
-
-                #quit function
+            #quit function
         def quits():
                 sure = input("are you sure?")
                 while sure == 'y':
@@ -18,69 +20,115 @@ def main():
                 else:
                     return False
         def bye():
-            user = input(">>")
-            string = user.split()
-            cmd = string[0]
-            if cmd == "quit":
-                    while quits() == True:
-                        break
-            elif cmd == 'stu':
-                    try:
-                        if len(string) != 4:
-                            print('incorrect usage, "Usage: stu <filename> <last name> <first name>"')
+                user = input(">>")
+                string = user.split()
+                try:
+                    if string[0] == "quit":
+                        while quits() == True:
+                            break
+                    elif string[0] == 'help':
+                        help()
+                    elif string[0] == 'stu':
+
+                            if len(string) != 4:
+                                print('incorrect usage, "Usage: stu <filename> <last name> <first name>"')
+                            else:
+                                userfile = string[1]
+                                first_name= string[3]
+                                last_name= string[2]
+                                param = ["stu", r"C:\Users\abdul\Downloads\GCIS.123.600-assignment2-sample.csv", "Altamimi", "Abdullah"]
+                                student_average(["stu", userfile, last_name,first_name])
+                    elif string[0] == 'avg':
+                        if len(string) != 3:
+                            print('incorrect usage: avg <filename> <grade item>')
                         else:
                             userfile = string[1]
-                            first_name= string[3]
-                            last_name= string[2]
-                            param = ["stu", r"C:\Users\abdul\Downloads\GCIS.123.600-assignment2-sample.csv", "Altamimi", "Abdullah"]
-                            student_average(["stu", userfile, last_name,first_name])
-
-                    except:
-                        if user == "":
-                            user = input("enter a command or 'quit' to quit")
-                            quits()
-            elif cmd == 'avg':
-                    if len(string) != 3:
-                        print('incorrect usage: avg <filename> <grade item>')
-                    else:
-                        userfile = string[1]
-                        gradeitem = string[2]
-                        print_average(["avg",userfile,gradeitem])
-
-            else:
-                print('invalid command')
+                            gradeitem = string[2]
+                            print_average(["avg",userfile,gradeitem])
+                    elif string[0] == "cavg":
+                        if len(string) != 2:
+                            print('incorrect usage: cavg <filename>')
+                        else:
+                            userfile = string[1]
+                            class_average(['cavg',userfile])
+                except IndexError:
+                    user = input("enter a command or 'quit' to quit")
+                    quits()
         def student_average(param):
-            print(param)
+            plotter.plot(trace_plot=True)
             f = param[1]
             if len(param) != 4:
                 print("Usage: stu <filename> <first name> <last name>")
                 bye()
             elif len(param) == 4:
-                    try:
                         csv_file = open(f)
                         csv_reader = csv.reader(csv_file)
                         firstname = param[3]
                         lastname = param[2]
                         for row in csv_reader:
                             try:
-                                while firstname in row:
-                                    if lastname in row:
-                                        plot = row[2:]
-                                        plotter.init('my graph','x-axis','y-axis')
-                                        plotter.new_series()
-                                        for i in range(len(plot)):
-                                            plotter.add_data_point(plot[i])
-                                            plotter.plot()
-                                        if plotter.plot() == True:
-                                            print('Plotting complete. (window may be hidden)')
-                                            break
-                                        elif plotter.plot() == False:
-                                            print('Plot failed. (student not found)')
-                                            break
+                                    while firstname in row:
+                                            if lastname in row:
+                                                try:
+                                                    plot = row[2:]
+                                                    plotter.init('my graph','x-axis','y-axis')
+
+                                                    for i in range(len(plot)):
+                                                        plotter.add_data_point(plot[i])
+                                                        plotter.plot()
+                                                        break
+                                                    if plotter.plot() == True:
+                                                        print('Plotting complete. (window may be hidden)')
+                                                        break
+                                                    elif plotter.plot() == False:
+                                                        print('Plot failed. (student not found)')
+                                                        break
+                                                except:
+                                                    print('Plot failed')
+                                                    break
                             except:
-                                print('name not found in csv file')
-                    except:
-                        print('file not found')
+                                print('name not found')
+
+
+
+
+
+
+        def class_average(cavg):
+
+            f = open(cavg[1],"r")
+            next(f)
+            average = 0
+            Sum = 0
+            row_count = 0
+            for row in f:
+                for column in row.split(','):
+                    if type(column) == str:
+                        tuple(column)
+                        p = column[2:]
+                        print(p)
+                    else:
+                        x = float(column)
+                        Sum += x
+                        row_count += 1
+                        average = Sum / row_count
+                        print(average)
+
+
+
+
+
+            f.close()
+
+
+
+
+
+
+
+
+
+
         def print_average(avg):
             csv=avg[1]
             f = open(csv)
@@ -93,6 +141,7 @@ def main():
                     Sum += n
             average = Sum / 12
             print(average)
+
 
 
 
