@@ -102,22 +102,24 @@ def main():
             Sum = 0
             row_count = 0
             for row in f:
-                for column in row.split(','):
-                    try:
-                            x = float(column)
-                            Sum += x
-                            row_count += 1
+                    for column in row.split(','):
+                        try:
+                                x = float(column)
+                                Sum += x
+                                row_count += 1
+
+
+                        except ValueError:
+                            pass
+            print("Avg =",Sum/row_count)
 
 
 
-                    except:
-                            return None
-            average = Sum / row_count
-            print(average)
 
 
 
-            f.close()
+
+
 
 
 
