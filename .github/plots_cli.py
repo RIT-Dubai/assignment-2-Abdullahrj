@@ -103,18 +103,17 @@ def main():
             row_count = 0
             for row in f:
                 for column in row.split(','):
-                    if type(column) == str:
-                        tuple(column)
-                        p = column[2:]
-                        print(p)
-                    else:
-                        x = float(column)
-                        Sum += x
-                        row_count += 1
-                        average = Sum / row_count
-                        print(average)
+                    try:
+                            x = float(column)
+                            Sum += x
+                            row_count += 1
 
 
+
+                    except:
+                            return None
+            average = Sum / row_count
+            print(average)
 
 
 
